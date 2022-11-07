@@ -1,0 +1,4 @@
+{
+  "httpUri": "http://localhost:8086",
+  "wsUri": "ws://localhost:8086"
+}

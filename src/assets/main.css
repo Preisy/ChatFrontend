@@ -1,0 +1,123 @@
+@import './base.css';
+
+#app {
+  max-width: 1280px;
+  height: 100vh;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 2rem;
+
+  font-weight: normal;
+}
+.nav-link:hover, .nav-link.active {
+  background-color: hsla(160, 100%, 37%, 0.2) !important;
+}
+.alert-success {
+  background-color: hsla(160, 100%, 37%, 0.2) !important;
+  border: none;
+  color: unset;
+}
+.alert-danger {
+  background-color: #a3162187 !important;
+  border: none;
+  color: unset;
+}
+/*.mb-5 {*/
+/*  margin-bottom: 5px;*/
+/*}*/
+
+h1 {
+  margin-bottom: 3rem !important;
+}
+.mr-0 {
+  margin-right: 0 !important;
+}
+
+.mr-1 {
+  margin-right: 0.25rem !important;
+}
+
+.mr-2 {
+  margin-right: 0.5rem !important;
+}
+.mr-3 {
+  margin-right: 0.75rem !important;
+}
+.mr-4 {
+  margin-right: 1rem !important;
+}
+.mr-5 {
+  margin-right: 1.25rem !important;
+}
+.mr-6 {
+  margin-right: 1.5rem !important;
+}
+.mr-7 {
+  margin-right: 1.75rem !important;
+}
+
+.mr-8 {
+  margin-right: 2rem !important;
+}
+.ml-0 {
+  margin-left: 0 !important;
+}
+
+.ml-1 {
+  margin-left: 0.25rem !important;
+}
+
+.ml-2 {
+  margin-left: 0.5rem !important;
+}
+.ml-3 {
+  margin-left: 0.75rem !important;
+}
+.ml-4 {
+  margin-left: 1rem !important;
+}
+.ml-5 {
+  margin-left: 1.25rem !important;
+}
+.ml-6 {
+  margin-left: 1.5rem !important;
+}
+
+.ml-7 {
+  margin-left: 1.75rem !important;
+}
+.ml-8 {
+  margin-left: 2rem !important;
+}
+
+/*a,*/
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+}
+
+a {
+  color: unset !important;
+  border-radius: 10px;
+  transition: background-color .25s;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+}

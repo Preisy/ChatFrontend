@@ -15,7 +15,7 @@
       <b-button v-if="isLogged" @click="logout()">Log out</b-button>
     </div>
 
-    <b-alert show variant="success" v-if="isLogged == true">Logged!</b-alert>
+    <b-alert show variant="success" v-if="isLogged === true">Logged!</b-alert>
     <b-alert show variant="danger" v-else-if="isLogged == null">Please log in</b-alert>
     <b-alert show variant="danger" v-else>{{ errorMessage }}</b-alert>
   </div>
@@ -39,14 +39,14 @@ export default {
   },
   methods: {
     saveLocalStorage() {
-      localStorage.setItem("userCreds", JSON.stringify({
+      sessionStorage.setItem("userCreds", JSON.stringify({
         username: this.username,
         password: this.password,
         isLogged: this.isLogged
       }))
     },
     removeLocalStorage() {
-      localStorage.removeItem("userCreds");
+      sessionStorage.removeItem("userCreds");
       this.id = null
       this.username = null
       this.password = null
@@ -54,7 +54,6 @@ export default {
     },
     login() {
       var thisRef = this
-      console.log("logging in" + this.username + " " + this.password)
       axios.post(`${cfg.httpUri}/login`, {
             "name": this.username,
             "password": Number(this.password)
@@ -62,11 +61,10 @@ export default {
       ).then(function (response) {
         thisRef.errorMessage = null
         thisRef.isLogged = true
-        let res = JSON.parse(response.data)
-        thisRef.id = res.id;
-        console.log(response);
+        thisRef.id = response.data.id;
+        console.log("logged in " + thisRef.username + " " + thisRef.password)
       }).catch(function (error) {
-        thisRef.errorMessage = error.response.data
+        // thisRef.errorMessage = error.response.data
         thisRef.isLogged = false
         console.log(error.response);
       }).finally(function () {
@@ -75,7 +73,6 @@ export default {
     },
     signup() {
       var thisRef = this
-      console.log("signing up " + this.username + " " + this.password)
       axios.post(`${cfg.httpUri}/signup`, {
             "name": this.username,
             "password": Number(this.password)
@@ -85,7 +82,7 @@ export default {
         thisRef.isLogged = true
         let res = JSON.parse(response.data)
         thisRef.id = res.id;
-        console.log(response);
+        console.log("signed up " + thisRef.username + " " + thisRef.password)
       }).catch(function (error) {
         thisRef.errorMessage = error.response.data
         thisRef.isLogged = false
@@ -96,7 +93,6 @@ export default {
     },
     logout() {
       var thisRef = this
-      console.log("logging out " + this.username + " " + this.password)
       axios.post(`${cfg.httpUri}/logout`, {}, {
         auth: {
           username: this.username,
@@ -107,6 +103,7 @@ export default {
         thisRef.isLogged = false
         thisRef.removeLocalStorage()
         console.log(response);
+        console.log("logging out " + thisRef.username + " " + thisRef.password)
       }).catch(function (error) {
         thisRef.errorMessage = "Please log in"
         thisRef.isLogged = false
@@ -115,19 +112,19 @@ export default {
         thisRef.saveLocalStorage()
       })
     },
-    beforeMount() {
-      let userCreds = JSON.parse(localStorage.getItem('userCreds'))
-      this.username = userCreds.username
-      this.password = userCreds.password
-      this.isLogged = userCreds.isLogged
-      if (this.isLogged)
-        this.errorMessage = "Logged!"
-      else
-        this.errorMessage = "Please log in"
+  },
 
-    },
-
-  }
+  beforeMount() {
+    let userCreds = JSON.parse(sessionStorage.getItem('userCreds'))
+    if (userCreds === null) return;
+    this.username = userCreds.username
+    this.password = userCreds.password
+    this.isLogged = userCreds.isLogged
+    if (this.isLogged)
+      this.errorMessage = "Logged!"
+    else
+      this.errorMessage = "Please log in"
+  },
 }
 </script>
 

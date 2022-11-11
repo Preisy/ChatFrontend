@@ -10,6 +10,10 @@
           Home
         </b-nav-item>
         <br>
+        <b-nav-item to="/join">
+          Join to room
+        </b-nav-item>
+        <br>
         <b-nav-item to="/new">
           Create new Room
         </b-nav-item>
@@ -49,15 +53,6 @@ export default defineComponent({
       // password: "123"
     }
   },
-
-  setup(props) {
-    props.message // type: string | undefined
-  },
-
-
-  mounted() {
-
-  }
 })
 
 

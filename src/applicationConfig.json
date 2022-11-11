@@ -1,4 +1,4 @@
 {
-  "httpUri": "http://localhost:8086",
-  "wsUri": "ws://localhost:8086"
+  "httpUri": "https://localhost:8443",
+  "wsUri": "wss://localhost:8443"
 }

@@ -5,6 +5,7 @@ import LoginComponent from "@/components/LoginComponent.vue";
 // import ChatView from "@/components/views/ChatView.vue";
 import ChatView from "../views/ChatView.vue";
 import NewRoom from "../components/NewRoom.vue";
+import JoinToRoom from "../components/JoinToRoom.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,6 +31,11 @@ const router = createRouter({
       path: '/new',
       name: 'newRoom',
       component: NewRoom
+    },
+    {
+      path: '/join',
+      name: 'joinToRoom',
+      component: JoinToRoom
     }
   ]
 })

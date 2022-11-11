@@ -16,6 +16,7 @@ export default {
       username: null,
       password: null,
 
+      isOpened: false,
       connection: null,
       chatMessages: [],
       newMessage: null
@@ -23,10 +24,11 @@ export default {
   },
   methods: {
     sendMessage(event) {
+      event.preventDefault()
       console.log("message sent")
       let obj = {
         roomId: this.roomId,
-        memberId: 1,
+        // memberId: this.,
         message: this.newMessage
       }
       console.log(obj)
@@ -35,7 +37,7 @@ export default {
       this.newMessage = ""
     },
     isMyMessage(message) {
-      console.log(`isMyMessage: memberUsername ${message.username} == myUsername ${this.username}`)
+      // console.log(`isMyMessage: memberUsername ${message.memberName} == myUsername ${this.username}`)
       if (message.memberName === this.username) {
         return true
       } else {
@@ -43,16 +45,15 @@ export default {
       }
     },
     setHomeHeight() {
-      console.log("asdfgdsadfgrewdfsb")
       let home = document.querySelector(".home")
       if (home == null) {
-        console.error(".home in TheChat.vue is nul!!!!!")
+        console.error()
       } else {
         home.style.height = home.clientHeight + "px"
       }
     },
     setUserCreds() {
-      let userCreds = JSON.parse(localStorage.getItem("userCreds"))
+      let userCreds = JSON.parse(sessionStorage.getItem("userCreds"))
       this.username = userCreds.username
       this.password = userCreds.password
     },
@@ -76,7 +77,8 @@ export default {
     },
     initWebSockets() {
       this.chatMessages = "12"
-      this.connection = new WebSocket(cfg.wsUri + "/rooms/" + this.roomId + "/" + 1)
+      this.connection = new WebSocket(cfg.wsUri + "/rooms/" + this.roomId)
+      this.isOpened = true;
       this.connection.onopen = function (event) {
         console.log("opened")
         console.log(event)
@@ -93,6 +95,7 @@ export default {
         console.log(event)
       }
       this.connection.onclose = function (event) {
+        thisRef.isOpened = false
         console.log("connection closed")
         console.log(event)
       }
@@ -136,6 +139,9 @@ export default {
             <div class="msg">{{ message.message }}</div>
           </div>
         </div>
+        <p v-else-if="!isOpened" style="margin: 0 auto;width: fit-content;">
+          Can't connect(
+        </p>
         <p v-else style="margin: 0 auto;width: fit-content;">
           There is no messages yet(
         </p>

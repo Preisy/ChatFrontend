@@ -1,7 +1,10 @@
 <template>
   <h1>Create new room</h1>
   <b-button class="mb-4" @click="createNewRoom()">Create</b-button>
-  <b-alert show variant="success" v-if="status">Logged!</b-alert>
+  <template v-if="status != null">
+    <b-alert show variant="success" v-if="status">Created!</b-alert>
+    <b-alert show variant="danger" v-else>Can't create</b-alert>
+  </template>
 </template>
 
 <script>
@@ -14,14 +17,13 @@ export default {
     return {
       username: null,
       password: null,
-      status: false,
+      status: null,
     }
   },
   methods: {
     createNewRoom() {
       var thisRef = this
       let routerRef = this.$router
-      console.log("logging out " + this.username + " " + this.password)
       axios.post(`${cfg.httpUri}/rooms/new`, {}, {
         auth: {
           username: this.username,
@@ -30,15 +32,15 @@ export default {
       }).then(function (response) {
         thisRef.status = true;
         console.log(response);
+        console.log("created!")
       }).catch(function (error) {
         thisRef.status = false
-        routerRef.push("login")
         console.log(error);
       })
     }
   },
   beforeMount() {
-    let userCreds = JSON.parse(localStorage.getItem('userCreds'))
+    let userCreds = JSON.parse(sessionStorage.getItem('userCreds'))
     this.username = userCreds.username
     this.password = userCreds.password
   },

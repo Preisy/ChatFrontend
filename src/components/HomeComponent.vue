@@ -30,13 +30,20 @@
 <script>
 import axios from "axios";
 import cfg from "@/applicationConfig.json"
-
+axios.interceptors.request.use((config) => {
+  config.withCredentials = true;
+  return config;
+});
 
 export default {
   name: 'HomeComponent',
   components: {},
   data() {
-    let userCreds = JSON.parse(localStorage.getItem('userCreds'))
+    let userCreds = JSON.parse(sessionStorage.getItem('userCreds'))
+    if (userCreds == null) {
+      this.$router.push("login");
+      return {}
+    }
     return {
       username: userCreds.username,
       password: userCreds.password,
@@ -53,7 +60,7 @@ export default {
       auth: {
         username: this.username,
         password: this.password
-      },
+      }
     }).then(function (response) {
       thisRef.rooms = response.data
       console.log(thisRef.rooms);
